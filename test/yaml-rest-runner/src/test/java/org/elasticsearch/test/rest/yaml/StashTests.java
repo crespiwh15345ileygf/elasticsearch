@@ -182,4 +182,13 @@ public class StashTests extends ESTestCase {
         assertThat(stash.getValue("$body.$backing_index.mappings"), equalTo(Map.of()));
     }
 
+    public void myTest01() throws Exception {
+        var stash = new Stash();
+        stash.stashValue("body", Map.of(".ds-k8s-2021-12-15-1", Map.of("data_stream", "k8s", "settings", Map.of(), "mappings", Map.of())));
+        stash.stashValue("backing_index", ".ds-k8s-2021-12-15-1");
+        assertThat(stash.getValue("$body.$backing_index.data_stream"), equalTo("k8s"));
+        assertThat(stash.getValue("$body.$backing_index.settings"), equalTo(Map.of()));
+        assertThat(stash.getValue("$body.$backing_index.mappings"), equalTo(Map.of()));
+    }
+
 }
