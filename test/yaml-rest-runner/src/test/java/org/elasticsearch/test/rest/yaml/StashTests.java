@@ -191,4 +191,15 @@ public class StashTests extends ESTestCase {
         assertThat(stash.getValue("$body.$backing_index.mappings"), equalTo(Map.of()));
     }
 
+    public void myTest02() throws Exception {
+        Stash stash = new Stash();
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("key", singletonMap("a", "foo\\${bar2}"));
+
+        Map<String, Object> actual = stash.replaceStashedValues(map);
+        assertMap(actual, matchesMap().entry("key", matchesMap().entry("a", "foo${bar2}")));
+        assertThat(actual, not(sameInstance(map)));
+    }
+
 }
